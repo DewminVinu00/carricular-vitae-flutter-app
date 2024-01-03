@@ -1,7 +1,6 @@
 // ignore_for_file: unused_import, unused_local_variable, unnecessary_import, invalid_return_type_for_catch_error, must_be_immutable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:curricular_vitae/pages/contact.dart';
 import 'package:curricular_vitae/services/firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
