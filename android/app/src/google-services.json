@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1094537173849",
+    "project_id": "curricular-vitae-9c450",
+    "storage_bucket": "curricular-vitae-9c450.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094537173849:android:f6fae6c2ba8296ef328a48",
+        "android_client_info": {
+          "package_name": "com.company.cv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPY8K2gaovUprDjHU_w97QkzkdhlaQLD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
