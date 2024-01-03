@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, unused_import
+import 'package:curricular_vitae/components/skills.dart';
 import 'package:curricular_vitae/pages/home_page.dart';
 import 'package:curricular_vitae/portfolio.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'portpolio': (context) => Portfolio(),
         'homepage': (context) => HomePage(),
+        'skillpage': (context) => Skills(),
       },
     );
   }

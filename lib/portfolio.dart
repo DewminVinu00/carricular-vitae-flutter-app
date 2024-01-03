@@ -65,6 +65,29 @@ class _PortfolioState extends State<Portfolio> {
             ),
           ],
         ),
+      ),
+      SizedBox(
+        height: 20.0,
+      ),
+      Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Skills()),
+                  );
+                },
+                child: Text("Go to Skill page"),
+              ),
+            ),
+          ],
+        ),
       )
     ];
     super.initState();
