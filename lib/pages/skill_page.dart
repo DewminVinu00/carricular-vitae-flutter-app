@@ -8,13 +8,13 @@ import 'package:velocity_x/velocity_x.dart';
 
 import 'package:curricular_vitae/services/firestore.dart';
 
-class Skills extends StatefulWidget {
-  Skills({Key? key}) : super(key: key);
+class SkillPage extends StatefulWidget {
+  SkillPage({Key? key}) : super(key: key);
   @override
-  State<Skills> createState() => _SkillsState();
+  State<SkillPage> createState() => _SkillPageState();
 }
 
-class _SkillsState extends State<Skills> {
+class _SkillPageState extends State<SkillPage> {
   final FirestoreService firestoreService = FirestoreService();
 
   List<Skill> skills = List.empty(growable: true);
