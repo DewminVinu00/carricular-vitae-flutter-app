@@ -1,10 +1,12 @@
 // ignore_for_file: unused_import, unused_local_variable, unnecessary_import, invalid_return_type_for_catch_error, must_be_immutable
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:curricular_vitae/services/firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show FirebaseFirestore, Timestamp;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'package:curricular_vitae/services/firestore.dart';
 
 class Skills extends StatefulWidget {
   Skills({Key? key}) : super(key: key);

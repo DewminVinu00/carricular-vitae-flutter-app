@@ -67,7 +67,7 @@ class _PortfolioState extends State<Portfolio> {
         ),
       ),
       SizedBox(
-        height: 20.0,
+        height: 5.0,
       ),
       Center(
         child: Column(
