@@ -22,7 +22,7 @@ class AnimatedContact extends StatefulWidget {
 }
 
 class _AnimatedContactState extends State<AnimatedContact> {
-  bool isHovering = false;
+  var isHovering = false;
   @override
   Widget build(BuildContext context) {
     return InkWell(

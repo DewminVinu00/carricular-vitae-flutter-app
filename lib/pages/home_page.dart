@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import, unused_local_variable, unnecessary_import, invalid_return_type_for_catch_error, must_be_immutable
 
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curricular_vitae/services/firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -20,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController contactController = TextEditingController();
 
   int selectedIndex = -1;
-  bool isUpdating = false;
+  var isUpdating = false;
 
   @override
   Widget build(BuildContext context) {

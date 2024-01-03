@@ -21,7 +21,7 @@ class _SkillPageState extends State<SkillPage> {
   TextEditingController skillController = TextEditingController();
 
   int selectedIndex = -1;
-  bool isUpdating = false;
+  var isUpdating = false;
 
   @override
   Widget build(BuildContext context) {

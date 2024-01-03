@@ -19,7 +19,7 @@ class Portfolio extends StatefulWidget {
 class _PortfolioState extends State<Portfolio> {
   List<Widget> navItems = [];
 
-  bool isMobile = false;
+  var isMobile = false;
 
   final skillKey = GlobalKey();
   final skillKeyE = GlobalKey();
