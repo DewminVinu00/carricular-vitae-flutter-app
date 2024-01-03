@@ -95,45 +95,32 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: const Text('Save'),
                 ),
-                /*ElevatedButton(
-                  onPressed: () {
-                    String name = nameController.text.trim();
-                    String contact = contactController.text.trim();
-
-                    if (name.isNotEmpty && contact.isNotEmpty) {
-                      setState(() {
-                        nameController.text = '';
-                        contactController.text = '';
-                        contacts[selectedIndex].name = name;
-                        contacts[selectedIndex].contact = contact;
-                        selectedIndex = -1;
-                      });
-                      fetchData(); // Fetch data after updating
-                    }
-                  },
-                  child: const Text('Update'),
-                ),*/
-
                 ElevatedButton(
                   onPressed: () async {
                     if (!isUpdating) {
-                      setState(() {
-                        isUpdating = true;
-                      });
+                      if (selectedIndex >= 0 &&
+                          selectedIndex < contacts.length) {
+                        setState(() {
+                          isUpdating = true;
+                        });
 
-                      // Create a Contact object with the updated values
-                      Contact updatedContact = Contact(
-                        name: nameController.text.trim(),
-                        contact: contactController.text.trim(),
-                        id: contacts[selectedIndex].id,
-                      );
+                        // Create a Contact object with the updated values
+                        Contact updatedContact = Contact(
+                          name: nameController.text.trim(),
+                          contact: contactController.text.trim(),
+                          id: contacts[selectedIndex].id,
+                        );
 
-                      // Call the update method with the updated contact
-                      await update(updatedContact);
+                        // Call the update method with the updated contact
+                        await update(updatedContact);
 
-                      setState(() {
-                        isUpdating = false;
-                      });
+                        setState(() {
+                          isUpdating = false;
+                        });
+                      } else {
+                        // Handle the case where selectedIndex is out of bounds
+                        print("Error: selectedIndex out of bounds");
+                      }
                     }
                   },
                   child: const Text('Update'),
