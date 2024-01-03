@@ -15,9 +15,8 @@ class Skills extends StatefulWidget {
 class _SkillsState extends State<Skills> {
   final FirestoreService firestoreService = FirestoreService();
 
-  List<Contact> contacts = List.empty(growable: true);
-  TextEditingController nameController = TextEditingController();
-  TextEditingController contactController = TextEditingController();
+  List<Skill> skills = List.empty(growable: true);
+  TextEditingController skillController = TextEditingController();
 
   int selectedIndex = -1;
   bool isUpdating = false;
@@ -35,7 +34,7 @@ class _SkillsState extends State<Skills> {
           children: [
             const SizedBox(height: 10),
             TextField(
-              controller: nameController,
+              controller: skillController,
               decoration: const InputDecoration(
                 hintText: 'Contact Name',
                 border: OutlineInputBorder(
@@ -65,12 +64,11 @@ class _SkillsState extends State<Skills> {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    if (nameController.text.isNotEmpty &&
-                        contactController.text.isNotEmpty) {
+                    if (skillController.text.isNotEmpty) {
                       var documentReference = await FirebaseFirestore.instance
                           .collection("skills")
                           .add({
-                        "skill": nameController.text.trim(),
+                        "skill": skillController.text.trim(),
                         'timestamp': Timestamp.now(),
                       });
 
@@ -79,11 +77,9 @@ class _SkillsState extends State<Skills> {
 
                       fetchData();
                       setState(() {
-                        nameController.text = '';
-                        contactController.text = '';
-                        contacts.add(Contact(
-                          name: nameController.text.trim(),
-                          contact: contactController.text.trim(),
+                        skillController.text = '';
+                        skills.add(Skill(
+                          skill: skillController.text.trim(),
                           id: contactId,
                         ));
                       });
@@ -96,17 +92,15 @@ class _SkillsState extends State<Skills> {
                 ElevatedButton(
                   onPressed: () async {
                     if (!isUpdating) {
-                      if (selectedIndex >= 0 &&
-                          selectedIndex < contacts.length) {
+                      if (selectedIndex >= 0 && selectedIndex < skills.length) {
                         setState(() {
                           isUpdating = true;
                         });
 
                         // Create a Contact object with the updated values
-                        Contact updatedContact = Contact(
-                          name: nameController.text.trim(),
-                          contact: contactController.text.trim(),
-                          id: contacts[selectedIndex].id,
+                        Skill updatedContact = Skill(
+                          skill: skillController.text.trim(),
+                          id: skills[selectedIndex].id,
                         );
 
                         // Call the update method with the updated contact
@@ -126,14 +120,14 @@ class _SkillsState extends State<Skills> {
               ],
             ),
             const SizedBox(height: 10),
-            contacts.isEmpty
+            skills.isEmpty
                 ? Text(
                     'No Contact yet..',
                     style: TextStyle(fontSize: 22),
                   )
                 : Expanded(
                     child: ListView.builder(
-                      itemCount: contacts.length,
+                      itemCount: skills.length,
                       itemBuilder: (contact, index) => getRow(index),
                     ),
                   ),
@@ -144,7 +138,7 @@ class _SkillsState extends State<Skills> {
   }
 
   Widget getRow(int index) {
-    if (contacts.isEmpty || index < 0 || index >= contacts.length) {
+    if (skills.isEmpty || index < 0 || index >= skills.length) {
       return SizedBox.shrink();
     }
 
@@ -159,10 +153,10 @@ class _SkillsState extends State<Skills> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              contacts[index].name,
+              skills[index].skill,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(contacts[index].contact),
+            Text(skills[index].skill),
           ],
         ),
         trailing: SizedBox(
@@ -173,8 +167,7 @@ class _SkillsState extends State<Skills> {
               InkWell(
                 onTap: () async {
                   setState(() {
-                    nameController.text = contacts[index].name;
-                    contactController.text = contacts[index].contact;
+                    skillController.text = skills[index].skill;
                     selectedIndex = index;
                   });
                   // Update the document and contacts list after tapping the "Edit" icon
@@ -182,12 +175,11 @@ class _SkillsState extends State<Skills> {
                     // Get the reference to the document with the specified ID
                     var documentReference = FirebaseFirestore.instance
                         .collection("details")
-                        .doc(contacts[index].id);
+                        .doc(skills[index].id);
 
                     // Update the document
                     await documentReference.update({
-                      "name": nameController.text,
-                      "contact": contactController.text,
+                      "skill": skillController.text,
                       'timestamp': Timestamp.now(),
                     });
 
@@ -220,7 +212,7 @@ class _SkillsState extends State<Skills> {
                           TextButton(
                             onPressed: () async {
                               // Call the delete function and pass the contact's ID
-                              await delete(contacts[index].id);
+                              await delete(skills[index].id);
                               Navigator.of(context).pop(); // Close the dialog
                             },
                             child: Text("Delete"),
@@ -243,27 +235,26 @@ class _SkillsState extends State<Skills> {
     try {
       var querySnapshot =
           await FirebaseFirestore.instance.collection("details").get();
-      var tempList = <Contact>[];
+      var tempList = <Skill>[];
 
       querySnapshot.docs.forEach((doc) {
-        var contact = Contact(
+        var contact = Skill(
           id: doc.id,
-          name: doc['name'],
-          contact: doc['contact'],
+          skill: doc['skill'],
         );
         tempList.add(contact);
       });
 
       setState(() {
-        contacts.clear(); // Clear the existing list before adding new data
-        contacts.addAll(tempList);
+        skills.clear(); // Clear the existing list before adding new data
+        skills.addAll(tempList);
       });
     } catch (e) {
       print("Error fetching data: $e");
     }
   }
 
-  Future<void> update(Contact contact) async {
+  Future<void> update(Skill contact) async {
     try {
       // Get the reference to the document with the specified ID
       var documentReference =
@@ -271,8 +262,7 @@ class _SkillsState extends State<Skills> {
 
       // Update the document with the values from the contact parameter
       await documentReference.update({
-        "name": contact.name,
-        "contact": contact.contact,
+        "skill": contact.skill,
         'timestamp': Timestamp.now(),
       });
 
@@ -290,7 +280,7 @@ class _SkillsState extends State<Skills> {
 
       setState(() {
         // Remove the deleted contact from the local list
-        contacts.removeWhere((contact) => contact.id == id);
+        skills.removeWhere((contact) => contact.id == id);
       });
     } catch (e) {
       print("Error deleting data: $e");
@@ -305,29 +295,25 @@ class _SkillsState extends State<Skills> {
   }
 }
 
-class Contact {
-  String name;
-  String contact;
+class Skill {
+  String skill;
   String id;
 
-  Contact({
-    required this.name,
-    required this.contact,
+  Skill({
+    required this.skill,
     required this.id,
   });
 
-  factory Contact.fromMap(Map<String, dynamic> map) {
-    return Contact(
-      name: map['name'] ?? '',
-      contact: map['contact'] ?? '',
+  factory Skill.fromMap(Map<String, dynamic> map) {
+    return Skill(
+      skill: map['skill'] ?? '',
       id: map['id'] ?? '',
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
-      'contact': contact,
+      'skill': skill,
       'id': id,
     };
   }
