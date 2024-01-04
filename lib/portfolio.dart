@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
+import 'package:curricular_vitae/pages/professional_skill_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:curricular_vitae/components/about.dart';
@@ -80,7 +81,8 @@ class _PortfolioState extends State<Portfolio> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Skills()),
+                    MaterialPageRoute(
+                        builder: (context) => ProfessionalSkillPage()),
                   );
                 },
                 child: Text("Go to Skill page"),
