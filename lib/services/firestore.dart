@@ -10,6 +10,9 @@ class FirestoreService {
   final CollectionReference namecontact =
       FirebaseFirestore.instance.collection('details');
 
+  final CollectionReference skillcontact =
+      FirebaseFirestore.instance.collection('skills');
+
   //create: add a new note
   Future<void> adddata(
       String year, String educationqualification, String educationloaction) {

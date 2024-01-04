@@ -1,8 +1,10 @@
 // ignore_for_file: unused_import, unused_local_variable, unnecessary_import, invalid_return_type_for_catch_error, must_be_immutable
 
-import 'package:cloud_firestore/cloud_firestore.dart'
-    show FirebaseFirestore, Timestamp;
+import 'dart:core';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -59,8 +61,8 @@ class _SkillPageState extends State<SkillPage> {
                   ),
                 ),
               ),
-            ),*/
-            const SizedBox(height: 10),
+            ),
+            const SizedBox(height: 10),*/
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -74,15 +76,15 @@ class _SkillPageState extends State<SkillPage> {
                         'timestamp': Timestamp.now(),
                       });
 
-                      var contactId = documentReference.id;
-                      print(contactId);
+                      var skillId = documentReference.id;
+                      print(skillId);
 
                       fetchData();
                       setState(() {
                         skillController.text = '';
                         skills.add(Skill(
                           skill: skillController.text.trim(),
-                          id: contactId,
+                          id: skillId,
                         ));
                       });
                     } else {
@@ -176,7 +178,7 @@ class _SkillPageState extends State<SkillPage> {
                   try {
                     // Get the reference to the document with the specified ID
                     var documentReference = FirebaseFirestore.instance
-                        .collection("details")
+                        .collection("skills")
                         .doc(skills[index].id);
 
                     // Update the document
@@ -185,7 +187,7 @@ class _SkillPageState extends State<SkillPage> {
                       'timestamp': Timestamp.now(),
                     });
 
-                    // Update the contacts list after update
+                    // Update the skills list after update
                     fetchData();
                   } catch (e) {
                     print("Error updating data: $e");
@@ -236,15 +238,15 @@ class _SkillPageState extends State<SkillPage> {
   Future<void> fetchData() async {
     try {
       var querySnapshot =
-          await FirebaseFirestore.instance.collection("details").get();
+          await FirebaseFirestore.instance.collection("skills").get();
       var tempList = <Skill>[];
 
       querySnapshot.docs.forEach((doc) {
-        var contact = Skill(
+        var skill = Skill(
           id: doc.id,
           skill: doc['skill'],
         );
-        tempList.add(contact);
+        tempList.add(skill);
       });
 
       setState(() {
@@ -256,19 +258,19 @@ class _SkillPageState extends State<SkillPage> {
     }
   }
 
-  Future<void> update(Skill contact) async {
+  Future<void> update(Skill skill) async {
     try {
       // Get the reference to the document with the specified ID
       var documentReference =
-          FirebaseFirestore.instance.collection("details").doc(contact.id);
+          FirebaseFirestore.instance.collection("details").doc(skill.id);
 
-      // Update the document with the values from the contact parameter
+      // Update the document with the values from the skill parameter
       await documentReference.update({
-        "skill": contact.skill,
+        "skill": skill.skill,
         'timestamp': Timestamp.now(),
       });
 
-      // Update the contacts list after the update
+      // Update the skill list after the update
       await fetchData();
     } catch (e) {
       print("Error updating data: $e");
@@ -281,8 +283,8 @@ class _SkillPageState extends State<SkillPage> {
       await FirebaseFirestore.instance.collection("details").doc(id).delete();
 
       setState(() {
-        // Remove the deleted contact from the local list
-        skills.removeWhere((contact) => contact.id == id);
+        // Remove the deleted skill from the local list
+        skills.removeWhere((skill) => skill.id == id);
       });
     } catch (e) {
       print("Error deleting data: $e");
