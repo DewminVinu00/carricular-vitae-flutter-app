@@ -30,7 +30,7 @@ class _ProfessionalSkillPageState extends State<ProfessionalSkillPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Skill List"),
+        title: Text("Professional Skill List"),
       ),
       body: Padding(
         padding: EdgeInsets.all(8.0),
@@ -40,7 +40,7 @@ class _ProfessionalSkillPageState extends State<ProfessionalSkillPage> {
             TextField(
               controller: skillController,
               decoration: const InputDecoration(
-                hintText: 'Contact Name',
+                hintText: 'Professional Skills',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
@@ -126,7 +126,7 @@ class _ProfessionalSkillPageState extends State<ProfessionalSkillPage> {
             const SizedBox(height: 10),
             skills.isEmpty
                 ? Text(
-                    'No Contact yet..',
+                    'No Skills yet..',
                     style: TextStyle(fontSize: 22),
                   )
                 : Expanded(
@@ -156,10 +156,10 @@ class _ProfessionalSkillPageState extends State<ProfessionalSkillPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            /*Text(
               skills[index].skill,
               style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            ),*/
             Text(skills[index].skill),
           ],
         ),
@@ -203,7 +203,7 @@ class _ProfessionalSkillPageState extends State<ProfessionalSkillPage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text("Delete Contact"),
+                        title: Text("Delete Your skill"),
                         content: Text(
                             "Are you sure you want to delete this contact?"),
                         actions: [
@@ -262,7 +262,7 @@ class _ProfessionalSkillPageState extends State<ProfessionalSkillPage> {
     try {
       // Get the reference to the document with the specified ID
       var documentReference =
-          FirebaseFirestore.instance.collection("details").doc(skill.id);
+          FirebaseFirestore.instance.collection("skills").doc(skill.id);
 
       // Update the document with the values from the skill parameter
       await documentReference.update({
@@ -280,7 +280,7 @@ class _ProfessionalSkillPageState extends State<ProfessionalSkillPage> {
   Future<void> delete(String id) async {
     try {
       // Delete the document with the specified ID
-      await FirebaseFirestore.instance.collection("details").doc(id).delete();
+      await FirebaseFirestore.instance.collection("skills").doc(id).delete();
 
       setState(() {
         // Remove the deleted skill from the local list
