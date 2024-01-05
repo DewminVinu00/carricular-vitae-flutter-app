@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables, unnecessary_new, unused_import, unused_field
-
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curricular_vitae/pages/professional_skill_page.dart';
 import 'package:curricular_vitae/services/firestore.dart';
 import 'package:curricular_vitae/utils/animated_contact.dart';
 import 'package:curricular_vitae/utils/socialrow.dart';
@@ -20,38 +21,46 @@ class _AboutState extends State<About> {
   final FirestoreService firestoreService = FirestoreService();
   final TextEditingController textController = TextEditingController();
 
-  /*void openNoteBox({String? docID}) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: TextField(
-          controller: textController,
-          decoration: new InputDecoration.collapsed(
-            hintText: 'Add your details',
-            border: OutlineInputBorder(),
-          ),
-          style: TextStyle(height: 1.5),
-          scrollPadding: EdgeInsets.all(12.0),
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              if (docID == null) {
-                firestoreService.addEducation(textController.text);
-              } else {
-                firestoreService.updateEducation(docID, textController.text);
-              }
+  List<Skill> skills = List.empty(growable: true);
+  TextEditingController skillController = TextEditingController();
 
-              textController.clear();
+  int selectedIndex = -1;
+  var isUpdating = false;
 
-              Navigator.pop(context);
-            },
-            child: Text("Add"),
-          )
-        ],
-      ),
-    );
-  }*/
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+
+    // Start a timer to fetch data every 5 seconds
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      fetchData();
+    });
+  }
+
+  Future<void> fetchData() async {
+    try {
+      var querySnapshot =
+          await FirebaseFirestore.instance.collection("skills").get();
+      var tempList = <Skill>[];
+
+      querySnapshot.docs.forEach((doc) {
+        var skill = Skill(
+          id: doc.id,
+          skill: doc['skill'],
+        );
+        tempList.add(skill);
+      });
+
+      setState(() {
+        skills.clear();
+        skills.addAll(tempList);
+      });
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +80,6 @@ class _AboutState extends State<About> {
         ),
       ),
       padding: EdgeInsets.all(30.0),
-      //height: 1100.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -86,10 +94,6 @@ class _AboutState extends State<About> {
                   fit: BoxFit.cover,
                 ),
               ),
-              /*Image.asset(
-                "assets/Dewmin.png",
-                height: 156.0,
-              ),*/
               Text(
                 "Dewmin Vinuraka",
                 style: TextStyle(
@@ -100,7 +104,7 @@ class _AboutState extends State<About> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
-                  "I am a final year undergraduate student in software engineering department of NSBM Green University. I have comprehensive experience in software engineering field. I am computer literate and have very good practical knowledge of the subject. I am confident, I can do Front - end Develop, Back - End Develop, UI Desings, Software Testing and Debugging in filed software engineering. It is my hope to further improve my skills here.",
+                  "I am a final year undergraduate student in the software engineering department of NSBM Green University. I have comprehensive experience in the software engineering field. I am computer literate and have very good practical knowledge of the subject. I am confident I can do Front-end Development, Back-End Development, UI Designs, Software Testing, and Debugging in the field of software engineering. It is my hope to further improve my skills here.",
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -108,48 +112,24 @@ class _AboutState extends State<About> {
                 alignment: WrapAlignment.center,
                 spacing: 8.0,
                 runSpacing: 8.0,
-                children: [
-                  Chip(
-                    label: Text(
-                      "Full Stack Developer",
-                    ),
-                    labelStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                    ),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.all(8.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                  ),
-
-                  /*Chip(
-                    label: Text(
-                      "Full Stack Developer",
-                    ),
-                    labelStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                    ),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.all(8.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                  ),
-                  Chip(
-                    label: Text(
-                      "App developer",
-                    ),
-                    labelStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.0,
-                    ),
-                    backgroundColor: Colors.green,
-                    padding: EdgeInsets.all(8.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                  ),*/
-                ],
+                children: skills
+                    .map(
+                      (skill) => Chip(
+                        label: Text(
+                          skill.skill,
+                        ),
+                        labelStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                        ),
+                        backgroundColor: Colors.green,
+                        padding: EdgeInsets.all(8.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
               Divider(color: Colors.blue.shade200),
               AnimatedContact(

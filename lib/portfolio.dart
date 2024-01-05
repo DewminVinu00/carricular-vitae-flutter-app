@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_import
 
 import 'package:curricular_vitae/pages/professional_skill_page.dart';
+import 'package:curricular_vitae/pages/social_media_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:curricular_vitae/components/about.dart';
@@ -86,6 +87,29 @@ class _PortfolioState extends State<Portfolio> {
                   );
                 },
                 child: Text("Go to Skill page"),
+              ),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+        height: 5.0,
+      ),
+      Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SocialMedia()),
+                  );
+                },
+                child: Text("Go to social media page"),
               ),
             ),
           ],

@@ -2,6 +2,7 @@
 import 'package:curricular_vitae/components/skills.dart';
 import 'package:curricular_vitae/pages/home_page.dart';
 import 'package:curricular_vitae/pages/professional_skill_page.dart';
+import 'package:curricular_vitae/pages/social_media_page.dart';
 import 'package:curricular_vitae/portfolio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         'portpolio': (context) => Portfolio(),
         'homepage': (context) => HomePage(),
         'professionalskillpage': (context) => ProfessionalSkillPage(),
+        'socialmediapage': (context) => SocialMedia(),
       },
     );
   }
